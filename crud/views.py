@@ -77,6 +77,24 @@ def delete_record(request, pk):
     record = get_object_or_404(Record, user=request.user, id=pk)
     record.delete()
     return redirect('dashboard')
+
+@login_required(login_url='my-login')
+def update_record(request, pk):
+    user_record = get_object_or_404(Record, user=request.user, id=pk)
+    
+    if request.method == 'POST':
+    
+        form = UpdateRecordForm(request.POST, instance=user_record)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        
+    else:
+        form = UpdateRecordForm(instance=user_record)
+        
+    context = {'form':form, 'user_record':user_record}
+    
+    return render(request, 'crud/update-record.html', context=context)
     
     
 
