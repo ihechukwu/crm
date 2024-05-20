@@ -5,6 +5,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from .models import Record
 from django.http import Http404
+from django.contrib import messages
 def index(request):  
     return  render(request, 'crud/index.html',)
 
@@ -15,8 +16,10 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request,user)
-            return redirect('dashboard')
+            
+            messages.success(request, 'registration was succesfull! ')
+            
+            return redirect('my-login')
         
     else:
             form = UserRegisterForm()
@@ -52,6 +55,8 @@ def create_record(request):
             user_record = form.save(commit=False)
             user_record.user = request.user
             user_record.save()
+            
+            messages.success(request, 'record created sucessfully! ')
             return redirect('dashboard')
     
     else:
@@ -64,6 +69,8 @@ def create_record(request):
 @login_required(login_url='my-login')
 def my_logout(request):
    logout(request)
+   
+   messages.success(request, 'logged out!')
    return redirect('my-login')
 
 @login_required(login_url='my-login')
@@ -87,6 +94,8 @@ def update_record(request, pk):
         form = UpdateRecordForm(request.POST, instance=user_record)
         if form.is_valid():
             form.save()
+            
+            messages.success(request, 'update successful! ')
             return redirect('dashboard')
         
     else:

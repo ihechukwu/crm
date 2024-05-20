@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
+    <title>Project1</title>
     <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/sandstone/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
@@ -17,6 +17,20 @@
 
         <br>
     <!-- notification messages -->
+
+    {% for message in messages %}
+
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+
+    <p id="message-timer" class="alert alert-success float-center text-center message-text">
+        <i class="fa fa-check" aria-hidden="true"></i> &nbsp; {{message}}
+
+    </p>
+
+    {% endif %}
+
+
+    {% endfor %}
 
         {% block content %}
 
